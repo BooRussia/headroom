@@ -1,4 +1,4 @@
-import { interpolate } from "remotion";
+import { Img, interpolate, staticFile } from "remotion";
 
 type MenuBarPopoverProps = {
   sessionPercent: number;
@@ -100,7 +100,13 @@ export const MenuBarPopover: React.FC<MenuBarPopoverProps> = ({
           marginBottom: 14,
         }}
       >
-        <div style={{ fontSize: 18, fontWeight: 700 }}>Headroom</div>
+        <div style={{ fontSize: 18, fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
+          <Img
+            src={staticFile("dock/headroom.png")}
+            style={{ width: 20, height: 20, borderRadius: 5 }}
+          />
+          Headroom
+        </div>
         <div
           style={{
             width: 8,

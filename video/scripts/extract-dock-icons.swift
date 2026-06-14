@@ -57,38 +57,11 @@ for (name, path) in apps {
 
 try saveTrashIcon(name: "trash", size: 256)
 
-// Headroom custom icon — gradient H badge matching the app brand
-let headroomSize: CGFloat = 256
-let image = NSImage(size: NSSize(width: headroomSize, height: headroomSize))
-image.lockFocus()
-
-let rect = NSRect(x: 0, y: 0, width: headroomSize, height: headroomSize)
-let path = NSBezierPath(roundedRect: rect.insetBy(dx: 8, dy: 8), xRadius: 56, yRadius: 56)
-
-let gradient = NSGradient(colors: [
-    NSColor(red: 0.49, green: 0.51, blue: 1.0, alpha: 1),
-    NSColor(red: 0.13, green: 0.77, blue: 0.49, alpha: 1),
-])!
-gradient.draw(in: path, angle: 135)
-
-let attrs: [NSAttributedString.Key: Any] = [
-    .font: NSFont.systemFont(ofSize: 128, weight: .bold),
-    .foregroundColor: NSColor.white,
-]
-let text = "H" as NSString
-let textSize = text.size(withAttributes: attrs)
-let textPoint = NSPoint(
-    x: (headroomSize - textSize.width) / 2,
-    y: (headroomSize - textSize.height) / 2 - 6
-)
-text.draw(at: textPoint, withAttributes: attrs)
-
-image.unlockFocus()
-
-if let tiff = image.tiffRepresentation,
-   let rep = NSBitmapImageRep(data: tiff),
-   let png = rep.representation(using: .png, properties: [:]) {
-    let url = outDir.appendingPathComponent("headroom.png")
-    try png.write(to: url)
-    print("Wrote \(url.path)")
+// Headroom brand icon
+let brandIcon = outDir.deletingLastPathComponent().deletingLastPathComponent()
+    .appendingPathComponent("brand/output/icon-256.png")
+if FileManager.default.fileExists(atPath: brandIcon.path) {
+    let dst = outDir.appendingPathComponent("headroom.png")
+    try FileManager.default.copyItem(at: brandIcon, to: dst)
+    print("Wrote \(dst.path)")
 }

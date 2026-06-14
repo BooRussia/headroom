@@ -42,9 +42,25 @@ a {
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.03em;
+}
+
+.brand-icon {
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(124, 131, 255, 0.25);
+}
+
+.hero-logo {
+  width: 96px;
+  height: 96px;
+  border-radius: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 20px 50px rgba(124, 131, 255, 0.28);
 }
 
 .nav-cta,

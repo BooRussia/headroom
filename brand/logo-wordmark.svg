@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="64" viewBox="0 0 320 64" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5B63F5"/>
+      <stop offset="1" stop-color="#18C58C"/>
+    </linearGradient>
+    <linearGradient id="fill" x1="18" y1="38" x2="46" y2="38" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#FFD36A"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#bg)"/>
+  <rect x="18" y="22" width="28" height="2" rx="1" fill="white" opacity="0.55"/>
+  <rect x="14" y="36" width="36" height="10" rx="5" fill="white" opacity="0.18"/>
+  <rect x="14" y="36" width="22" height="10" rx="5" fill="url(#fill)"/>
+  <text x="76" y="42" fill="white" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="700" letter-spacing="-0.04em">Headroom</text>
+</svg>
