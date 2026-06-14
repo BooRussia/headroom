@@ -4,13 +4,17 @@ import { MenuBarPopover } from "./MenuBarPopover";
 type MacDesktopProps = {
   sessionPercent: number;
   weeklyPercent: number;
+  popoverSessionPercent: number;
   popoverProgress: number;
+  heroOpacity: number;
 };
 
 export const MacDesktop: React.FC<MacDesktopProps> = ({
   sessionPercent,
   weeklyPercent,
+  popoverSessionPercent,
   popoverProgress,
+  heroOpacity,
 }) => {
   const frame = useCurrentFrame();
   const glow = interpolate(frame % 45, [0, 22, 45], [0.35, 0.9, 0.35]);
@@ -90,6 +94,7 @@ export const MacDesktop: React.FC<MacDesktopProps> = ({
                 .padStart(2, "0")}`,
               fontWeight: 600,
               fontVariantNumeric: "tabular-nums",
+              transition: "none",
             }}
           >
             {dot} {Math.round(sessionPercent)}%
@@ -105,6 +110,7 @@ export const MacDesktop: React.FC<MacDesktopProps> = ({
           transform: "translateX(-50%)",
           color: "rgba(255,255,255,0.92)",
           textAlign: "center",
+          opacity: heroOpacity,
         }}
       >
         <div style={{ fontSize: 56, fontWeight: 700, letterSpacing: -1.5 }}>
@@ -121,22 +127,25 @@ export const MacDesktop: React.FC<MacDesktopProps> = ({
         </div>
       </div>
 
-      <div
-        style={{
-          position: "absolute",
-          right: 28,
-          top: 40,
-          zIndex: 30,
-          transform: `translateY(${interpolate(popoverProgress, [0, 1], [-8, 0])}px)`,
-          opacity: popoverProgress,
-        }}
-      >
-        <MenuBarPopover
-          sessionPercent={sessionPercent}
-          weeklyPercent={weeklyPercent}
-          progress={popoverProgress}
-        />
-      </div>
+      {popoverProgress > 0.01 && (
+        <div
+          style={{
+            position: "absolute",
+            right: 28,
+            top: 40,
+            zIndex: 30,
+            transform: `translateY(${interpolate(popoverProgress, [0, 1], [-12, 0])}px) scale(${interpolate(popoverProgress, [0, 1], [0.96, 1])})`,
+            opacity: popoverProgress,
+            transformOrigin: "top right",
+          }}
+        >
+          <MenuBarPopover
+            sessionPercent={popoverSessionPercent}
+            weeklyPercent={weeklyPercent}
+            progress={popoverProgress}
+          />
+        </div>
+      )}
 
       <div
         style={{

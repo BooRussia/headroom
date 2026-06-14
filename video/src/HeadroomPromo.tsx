@@ -2,6 +2,7 @@ import {
   AbsoluteFill,
   Easing,
   interpolate,
+  Sequence,
   spring,
   useCurrentFrame,
   useVideoConfig,
@@ -13,30 +14,64 @@ export const HeadroomPromo: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
 
-  const scene1End = 3 * fps;
-  const scene2End = 5.5 * fps;
-  const scene3End = 8 * fps;
-  const zoomEnd = 10 * fps;
+  const clickStart = 2 * fps;
+  const popoverOpenStart = 2.4 * fps;
+  const fillStart = 2.8 * fps;
+  const fillEnd = 5.8 * fps;
+  const closeStart = 6.1 * fps;
+  const closeEnd = 7 * fps;
+  const holdEnd = 8.2 * fps;
+  const fadeStart = holdEnd;
+  const fadeEnd = 9.2 * fps;
 
-  const showPopover = frame >= scene1End + 8;
-  const popoverOpen = spring({
-    frame: frame - (scene1End + 8),
+  const popoverOpenSpring = spring({
+    frame: frame - popoverOpenStart,
     fps,
-    config: { damping: 18, stiffness: 180 },
+    config: { damping: 20, stiffness: 200 },
   });
 
-  const zoom = interpolate(frame, [scene3End, zoomEnd], [1, 0.72], {
+  const popoverCloseProgress = interpolate(frame, [closeStart, closeEnd], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
-    easing: Easing.bezier(0.16, 1, 0.3, 1),
+    easing: Easing.bezier(0.4, 0, 0.2, 1),
   });
 
-  const desktopOpacity = interpolate(frame, [zoomEnd - 10, zoomEnd + 20], [1, 0], {
+  let popoverProgress = 0;
+  if (frame >= popoverOpenStart && frame < closeStart) {
+    popoverProgress = popoverOpenSpring;
+  } else if (frame >= closeStart && frame < closeEnd) {
+    popoverProgress = 1 - popoverCloseProgress;
+  }
+
+  const sessionPercent = interpolate(frame, [fillStart, fillEnd], [10, 87], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: Easing.bezier(0.22, 1, 0.36, 1),
+  });
+
+  const menuBarPercent =
+    frame < fillStart ? 10 : frame < fillEnd ? sessionPercent : 87;
+
+  const weeklyPercent = 48;
+
+  const heroOpacity = interpolate(frame, [popoverOpenStart, fillStart, closeStart], [1, 0.35, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  const endOpacity = interpolate(frame, [zoomEnd, zoomEnd + 18], [0, 1], {
+  const desktopOpacity = interpolate(frame, [fadeStart, fadeEnd], [1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: Easing.inOut(Easing.cubic),
+  });
+
+  const blackOverlay = interpolate(frame, [fadeStart, fadeEnd], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: Easing.inOut(Easing.cubic),
+  });
+
+  const endOpacity = interpolate(frame, [fadeEnd - 6, fadeEnd + 24], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: Easing.out(Easing.cubic),
@@ -44,8 +79,8 @@ export const HeadroomPromo: React.FC = () => {
 
   const cursorX = interpolate(
     frame,
-    [scene1End - 12, scene1End + 6],
-    [width * 0.55, width * 0.79],
+    [clickStart - 10, clickStart + 8],
+    [width * 0.52, width * 0.79],
     {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
@@ -55,8 +90,8 @@ export const HeadroomPromo: React.FC = () => {
 
   const cursorY = interpolate(
     frame,
-    [scene1End - 12, scene1End + 6],
-    [height * 0.18, height * 0.034],
+    [clickStart - 10, clickStart + 8],
+    [height * 0.2, height * 0.034],
     {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
@@ -64,31 +99,23 @@ export const HeadroomPromo: React.FC = () => {
     },
   );
 
-  const clickScale = frame >= scene1End + 4 && frame <= scene1End + 10 ? 0.86 : 1;
+  const clickScale =
+    frame >= clickStart + 2 && frame <= clickStart + 8 ? 0.86 : 1;
 
-  const sessionPercent = interpolate(frame, [0, scene2End, scene3End], [87, 87, 62], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  const weeklyPercent = 74;
+  const showCursor = frame >= clickStart - 10 && frame < popoverOpenStart + 20;
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "#050508" }}>
-      <AbsoluteFill
-        style={{
-          transform: `scale(${zoom})`,
-          opacity: desktopOpacity,
-          transformOrigin: "50% 8%",
-        }}
-      >
+    <AbsoluteFill style={{ backgroundColor: "#000" }}>
+      <AbsoluteFill style={{ opacity: desktopOpacity }}>
         <MacDesktop
-          sessionPercent={sessionPercent}
+          sessionPercent={menuBarPercent}
           weeklyPercent={weeklyPercent}
-          popoverProgress={showPopover ? popoverOpen : 0}
+          popoverSessionPercent={sessionPercent}
+          popoverProgress={popoverProgress}
+          heroOpacity={heroOpacity}
         />
 
-        {frame >= scene1End - 12 && frame < zoomEnd && (
+        {showCursor && (
           <div
             style={{
               position: "absolute",
@@ -104,8 +131,17 @@ export const HeadroomPromo: React.FC = () => {
         )}
       </AbsoluteFill>
 
+      <AbsoluteFill
+        style={{
+          backgroundColor: "#000",
+          opacity: blackOverlay,
+        }}
+      />
+
       <AbsoluteFill style={{ opacity: endOpacity }}>
-        <EndCard />
+        <Sequence from={Math.round(fadeEnd)} layout="none">
+          <EndCard />
+        </Sequence>
       </AbsoluteFill>
     </AbsoluteFill>
   );
