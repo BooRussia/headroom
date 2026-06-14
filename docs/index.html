@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Headroom — Claude usage limits for macOS</title>
+    <meta
+      name="description"
+      content="Headroom is a free macOS menu bar app that tracks your Claude 5-hour and weekly usage limits with exact reset times and notifications."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <div class="brand">Headroom</div>
+      <a class="nav-cta" href="#download">Download</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Free macOS menu bar app · Built for Claude</p>
+        <h1>Know your limits before Claude says no.</h1>
+        <p class="lede">
+          Headroom lives in your menu bar and shows your real 5-hour and weekly
+          usage — with exact reset times, live countdowns, and Mac notifications
+          when you are getting close.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" id="download" href="https://github.com/BooRussia/headroom/releases/latest">
+            Download for Mac
+          </a>
+          <a class="button ghost" href="https://github.com/BooRussia/headroom">
+            View on GitHub
+          </a>
+        </div>
+        <p class="fine-print">
+          macOS 13+ · Open source · No analytics · Not affiliated with Anthropic
+        </p>
+      </section>
+
+      <section class="video-wrap">
+        <div class="video-frame">
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            poster="poster.jpg"
+            aria-label="Headroom demo video showing menu bar usage and popover"
+          >
+            <source src="demo.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </section>
+
+      <section class="features">
+        <article>
+          <h3>Menu bar at a glance</h3>
+          <p>
+            Color-coded percentage in the top bar. Green, yellow, orange, red —
+            you always know how much room you have left.
+          </p>
+        </article>
+        <article>
+          <h3>Exact reset times</h3>
+          <p>
+            No more fuzzy “about an hour.” Headroom shows the precise reset
+            timestamp and a live countdown down to the second.
+          </p>
+        </article>
+        <article>
+          <h3>Smart notifications</h3>
+          <p>
+            Get warned at 75%, 85%, 90%, and 95%. When a window resets, you get
+            a notification — only for the limit that actually reset.
+          </p>
+        </article>
+        <article>
+          <h3>Private by design</h3>
+          <p>
+            Your session cookie stays in the macOS Keychain. No servers, no
+            tracking, no accounts. Just you and the Claude usage API.
+          </p>
+        </article>
+      </section>
+
+      <section class="setup">
+        <h2>Setup in under a minute</h2>
+        <ol>
+          <li>Download and open Headroom.</li>
+          <li>Copy your <code>sessionKey</code> cookie from claude.ai.</li>
+          <li>Paste it in Settings. Done.</li>
+        </ol>
+      </section>
+
+      <section class="cta-band">
+        <h2>Keep your headroom.</h2>
+        <p>Free forever. Built for people who live in Claude all day.</p>
+        <a class="button primary" href="https://github.com/BooRussia/headroom/releases/latest">
+          Download Headroom
+        </a>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Headroom is an independent open-source utility for Claude users. Claude
+        is a trademark of Anthropic, PBC. This project is not affiliated with or
+        endorsed by Anthropic.
+      </p>
+    </footer>
+  </body>
+</html>

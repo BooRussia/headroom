@@ -1,0 +1,8 @@
+.build/
+dist/
+.DS_Store
+*.xcuserstate
+node_modules/
+video/node_modules/
+video/.remotion/
+*.zip

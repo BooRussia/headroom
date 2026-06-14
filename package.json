@@ -1,0 +1,7 @@
+{
+  "name": "headroom",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Headroom — macOS menu bar Claude usage tracker",
+  "license": "MIT"
+}
